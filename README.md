@@ -1,42 +1,32 @@
 # Acquisition-Analysis-Campaign
-**Overview**
+# **Overview**
 The company ran a recent marketing campaign to promote the value proposition of how the debt relief program helps people achieve financial freedom. Assume the cost of this campaign was $5 million. There are five months of data in the datasets provided. Let’s say campaign took place over the course of the third month. We want to show the marketing, sales and operations teams just how successful this campaign was.
 
-Analysis
+Background:
 Customers
   - Age
 print(df['client_age'].describe())
-This content is only supported in a Lark Docs
   - Geography
 print(df['client_geographical_region'].value_counts())
-This content is only supported in a Lark Docs
   - Rent or Own
 print(df['client_residence_status'].value_counts())
-This content is only supported in a Lark Docs
   - Amount per month
 Deposit
   - Total amount per month
-This content is only supported in a Lark Docs
-[Image]
-  
   - Actual deposit
   - Schedual deposit
-This content is only supported in a Lark Docs
-  
-  
-This content is only supported in a Lark Docs
-[Image]
 Earnings
   - Total amount of earnings per month
 Costs
   - 5million
-**Q1**
-**What metric to assess the success of the campaign**
-1. New joiners after the campaign and New actual deposit invested after the campaign
+# **Q1**
+# **What metric to assess the success of the campaign**
+-New joiners after the campaign and New actual deposit invested after the campaign
 Indicator: 
-1.  Month-over-Month (MoM) Growth Rate . During the campaign, 11544 new joiners registered and deposited the actual amount, which grew by 33.24%. 
-2. ROI is -0.95%
-3. LTV Average Customer LTV
+1.  **Month-over-Month (MoM) Growth Rate** . During the campaign, 11544 new joiners registered and deposited the actual amount, which grew by 33.24%. 
+2. **ROI** (-0.95%)
+3.** LTV Average Customer LTV**
+
 Based on Freedom's business model, a successful marketing campaign must achieve two things: Acquire Clients and Generate Revenue.
 1. Acquisition Efficiency: Incremental New Clients
   - Calculation: (Total New Clients in Month 3, 4, 5) - (Average Monthly New Clients in Month 1, 2) $\times$ 3.
@@ -52,7 +42,7 @@ Based on Freedom's business model, a successful marketing campaign must achieve 
 
 df_actual_only = df[df["deposit_type"] == "Actual Deposit"]
 
-# Compute total deposit per month
+****Compute total deposit per month****
 monthly_actual = df_actual_only.groupby("month_name")["deposit_amount"].sum().sort_index()
 
 print("Actual Deposit Amounts Per Month:")
@@ -100,8 +90,8 @@ estimated_revenue = total_gain * 0.18
 print("Estimated revenue (18% service fee):", estimated_revenue)
 This content is only supported in a Lark Docs
 3. Total gain every month
-**Q2**
-**What strategy can be used for further campaign**
+# **Q2**
+# **What strategy can be used for further campaign**
 Geographical Region Analysis (client_geographical_region):
 - Calculate the Customer Acquisition Cost (CAC) by region: Which region has the highest client conversion rate?
 - Recommendation: Shift future marketing budgets towards geographical regions with the highest return on investment.
@@ -113,8 +103,8 @@ Residence Status Analysis (client_residence_status):
 - Recommendation: If owners show more stable or higher deposits, focus marketing efforts on the population segment with property ownership.
 1. Identify the real target customers
 2. Decrease the budget
-**Q3**
-**What if the campaign is postponed by 3 months**
+# **Q3**
+# **What if the campaign is postponed by 3 months**
 Core Idea: Utilizing Trend Forecasting
 Since you only have five months of data, to predict Month 6, you must either build a time series model (though data points are few) or simply use linear/average trend extrapolation.
 1. Establish Baseline Trend:
