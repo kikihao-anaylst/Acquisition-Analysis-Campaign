@@ -1,15 +1,16 @@
+
 # Acquisition-Analysis-Campaign
 # **Overview**
-The company ran a recent marketing campaign to promote the value proposition of how the debt relief program helps people achieve financial freedom. Assume the cost of this campaign was $5 million. There are five months of data in the datasets provided. Let’s say campaign took place over the course of the third month. We want to show the marketing, sales and operations teams just how successful this campaign was.
+The company ran a recent marketing campaign to promote the value proposition of how the debt relief program helps people achieve financial freedom. The cost of this campaign was $5 million. There are five months of data. The campaign took place over the course of the third month. I want to show the marketing, sales and operations teams just how successful this campaign was.
 
-Background:
+**Background:**
 Customers
   - Age
-print(df['client_age'].describe())
+    `print(df['client_age'].describe())`
   - Geography
-print(df['client_geographical_region'].value_counts())
+  - `print(df['client_geographical_region'].value_counts())`
   - Rent or Own
-print(df['client_residence_status'].value_counts())
+  - `print(df['client_residence_status'].value_counts())`
   - Amount per month
 Deposit
   - Total amount per month
@@ -25,71 +26,73 @@ Costs
 Indicator: 
 1.  **Month-over-Month (MoM) Growth Rate** . During the campaign, 11544 new joiners registered and deposited the actual amount, which grew by 33.24%. 
 2. **ROI** (-0.95%)
-3.** LTV Average Customer LTV**
+3. **LTV Average Customer LTV**
 
 Based on Freedom's business model, a successful marketing campaign must achieve two things: Acquire Clients and Generate Revenue.
-1. Acquisition Efficiency: Incremental New Clients
+4. Acquisition Efficiency: Incremental New Clients
   - Calculation: (Total New Clients in Month 3, 4, 5) - (Average Monthly New Clients in Month 1, 2) $\times$ 3.
   - Rationale: Focuses on the additional clients brought in by the campaign, excluding the baseline (organic) growth.
-2. Profitability: Marketing Return on Investment (Marketing ROI)
+5. Profitability: Marketing Return on Investment (Marketing ROI)
   - $$ROI = \frac{(\text{Settlement Fee Revenue}) - (\text{Campaign Cost} + \text{Ongoing Client Cost})}{\text{Campaign Cost}}$$
   - Calculation Challenges: You must assume industry statistics as instructed in the project brief to estimate revenue and costs:
     - Assumption 1 (Revenue): Settlement Fee Percentage (e.g., assume Freedom collects 15%-25% of the settled amount as fees).
     - Assumption 2 (Cost): Ongoing Cost per Client (e.g., assume a monthly operational cost per client).
   - Core Logic: Revenue is proportional to the total deposit amount. Therefore, you can estimate incremental revenue by comparing the incremental total deposits from Month 3-5.
-3. Client Quality: Trend Change in Average Customer Lifetime Value (LTV)
+6. Client Quality: Trend Change in Average Customer Lifetime Value (LTV)
   - You can indirectly assess LTV change by comparing the average monthly deposit amount of new clients acquired in Month 3-5 with those acquired in Month 1-2. A higher average deposit suggests higher LTV and healthier clients.
 
 df_actual_only = df[df["deposit_type"] == "Actual Deposit"]
 
 ****Compute total deposit per month****
-monthly_actual = df_actual_only.groupby("month_name")["deposit_amount"].sum().sort_index()
 
-print("Actual Deposit Amounts Per Month:")
-print(monthly_actual)
-
-clients_before = df[df["month_name"].isin(["Month 1", "Month 2"])]["client_id"].unique()
-clients_during = df[df["month_name"] == "Month 3"]["client_id"].unique()
-clients_after = df[df["month_name"].isin(["Month 4", "Month 5"])]["client_id"].unique()
-new_clients_during = set(clients_during) - set(clients_before)
-new_clients_after = set(clients_after) - set(clients_before) - set(clients_during)
-
-print("New clients during campaign:", len(new_clients_during))
-print("New clients after campaign:", len(new_clients_after))
- Month-over-Month (MoM) Growth Rate 
-This content is only supported in a Lark Docs
-This content is only supported in a Lark Docs
+    monthly_actual = df_actual_only.groupby("month_name")["deposit_amount"].sum().sort_index()
+    
+    print("Actual Deposit Amounts Per Month:")
+    print(monthly_actual)
+    
+    clients_before = df[df["month_name"].isin(["Month 1", "Month 2"])]["client_id"].unique()
+    clients_during = df[df["month_name"] == "Month 3"]["client_id"].unique()
+    clients_after = df[df["month_name"].isin(["Month 4", "Month 5"])]["client_id"].unique()
+    new_clients_during = set(clients_during) - set(clients_before)
+    new_clients_after = set(clients_after) - set(clients_before) - set(clients_during)
+    
+    print("New clients during campaign:", len(new_clients_during))
+    print("New clients after campaign:", len(new_clients_after))
+     Month-over-Month (MoM) Growth Rate 
 [Image]
 2. ROI analysis 
-df_actual_only = df[df["deposit_type"] == "Actual Deposit"]
+
+    df_actual_only = df[df["deposit_type"] == "Actual Deposit"]
 
 # Compute total deposit per month
-monthly_actual = df_actual_only.groupby("month_name")["deposit_amount"].sum().sort_index()
 
-print("Actual Deposit Amounts Per Month:")
-print(monthly_actual)
+    monthly_actual = df_actual_only.groupby("month_name")
 
+    ["deposit_amount"].sum().sort_index()
+    
+    print("Actual Deposit Amounts Per Month:")
+    print(monthly_actual)
+    
+    
+    pre_avg = deposit_amount_by_month_st1[["Month 1", "Month 2"]].mean()
+    print("Pre-campaign average:", pre_avg)
+    
+    delta_m3 = deposit_amount_by_month_st1["Month 3"] - pre_avg
+    print("Delta Month 3:", delta_m3)
+    
+    delta_m4 = deposit_amount_by_month_st1["Month 4"] - pre_avg
+    print("Delta Month 4:", delta_m4)
+    
+    delta_m5 = deposit_amount_by_month_st1["Month 5"] - pre_avg
+    print("Delta Month 5:", delta_m5)
+    
+    total_gain = delta_m3 + delta_m4 + delta_m5
+    print("Total campaign lift:", total_gain)
+    
+    estimated_revenue = total_gain * 0.18
+    
+    print("Estimated revenue (18% service fee):", estimated_revenue)
 
-pre_avg = deposit_amount_by_month_st1[["Month 1", "Month 2"]].mean()
-print("Pre-campaign average:", pre_avg)
-
-delta_m3 = deposit_amount_by_month_st1["Month 3"] - pre_avg
-print("Delta Month 3:", delta_m3)
-
-delta_m4 = deposit_amount_by_month_st1["Month 4"] - pre_avg
-print("Delta Month 4:", delta_m4)
-
-delta_m5 = deposit_amount_by_month_st1["Month 5"] - pre_avg
-print("Delta Month 5:", delta_m5)
-
-total_gain = delta_m3 + delta_m4 + delta_m5
-print("Total campaign lift:", total_gain)
-
-estimated_revenue = total_gain * 0.18
-
-print("Estimated revenue (18% service fee):", estimated_revenue)
-This content is only supported in a Lark Docs
-3. Total gain every month
 # **Q2**
 # **What strategy can be used for further campaign**
 Geographical Region Analysis (client_geographical_region):
@@ -119,3 +122,4 @@ Since you only have five months of data, to predict Month 6, you must either bui
   - The final incremental number is the difference between the Month 6 Campaign result and the Month 3 Campaign result (the result you obtained in Question 1).
 6. $$\text{Incremental Change} = (\text{Month 6 Campaign Result}) - (\text{Month 3 Campaign Result})$$
 Breaking the 'No Clue' Barrier: The focus must be on calculating $\Delta_{campaign}$. Once you have this "effect increment," you can apply it to the baseline forecast of any month.
+
